@@ -32,7 +32,7 @@ class Dataset:
         self.input_shape = None
     # 加载数据集并按照交叉验证的原则划分数据集并进行相关预处理工作
     def load(self, img_rows=IMAGE_SIZE, img_cols=IMAGE_SIZE,
-             img_channels=3, nb_classes=2):
+             img_channels=3, nb_classes=4):
         # 加载数据集到内存
         images, labels = load_dataset(self.path_name)
         train_images, valid_images, train_labels, valid_labels = train_test_split(images, labels, test_size=0.3,
@@ -79,7 +79,7 @@ class Model:
     def __init__(self):
         self.model = None
         # 建立模型
-    def build_model(self, dataset, nb_classes=2):
+    def build_model(self, dataset, nb_classes=4):
         # 构建一个空的网络模型，它是一个线性堆叠模型，各神经网络层会被顺序添加，专业名称为序贯模型或线性堆叠模型
         self.model = Sequential()
         # 以下代码将顺序添加CNN网络需要的各层，一个add就是一个网络层
@@ -143,7 +143,7 @@ class Model:
                                      samples_per_epoch=dataset.train_images.shape[0],
                                      nb_epoch=nb_epoch,
                                      validation_data=(dataset.valid_images, dataset.valid_labels))
-    MODEL_PATH = './liziqiang.face.model.h5'
+    MODEL_PATH = './facemodel.h5'
     def save_model(self, file_path=MODEL_PATH):
         self.model.save(file_path)
     def load_model(self, file_path=MODEL_PATH):
