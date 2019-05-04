@@ -41,7 +41,7 @@ class myThread (threading.Thread):   #继承父类threading.Thread
         self.file_path = file_path
     def run(self):                   #把要执行的代码写到run函数里面 线程在创建后会直接运行run函数 
         temp_date = time.strftime('%Y-%m-%d',time.localtime(time.time()))
-        fobj = open("%s.txt"%temp_date,"a")
+        #fobj = open("%s.txt"%temp_date,"a")
         while True:
             time.sleep(3)
             file_list = ''
@@ -49,6 +49,7 @@ class myThread (threading.Thread):   #继承父类threading.Thread
             now_time = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')
             print(now_time+"\n")
             now_date = time.strftime('%Y-%m-%d',time.localtime(time.time()))
+            fobj = open("%s.txt"%temp_date,"a")
             if now_date != temp_date:
                 fobj = open("%s.txt"%temp_date,"a")
                 print("new day")
@@ -64,7 +65,7 @@ class myThread (threading.Thread):   #继承父类threading.Thread
 def Catch_person(window_name, camera_idx, catch_pic_num, path_name):
     cv2.namedWindow(window_name)
     cap = cv2.VideoCapture(camera_idx)
-    classfier = cv2.CascadeClassifier("C://Users//934554314//Anaconda3//Lib//site-packages//cv2//data//haarcascade_frontalface_alt2.xml")
+    classfier = cv2.CascadeClassifier("haarcascade_frontalface_alt2.xml")
     color = (0, 255, 0)
     num = 0
     while cap.isOpened():
@@ -159,17 +160,17 @@ def Catch_action_with_person(window_name, camera_idx, catch_pic_num, path_name):
                     cv2.rectangle(frame, (x - 10, y - 10), (x + w + 10, y + h + 10), color, 2)
                     font = cv2.FONT_HERSHEY_SIMPLEX
                     object_name = 'person'
-            cv2.putText(frame,temp_time,(20,100),cv2.FONT_HERSHEY_COMPLEX,1,(0,0,255),1)
+            #cv2.putText(frame,temp_time,(20,100),cv2.FONT_HERSHEY_COMPLEX,1,(0,0,255),1)
             img_name = '%s/%s_%s.jpg' % (path_name, temp_time,object_name)
             cv2.imwrite(img_name, frame)
-            print("img_name:%s..............."%img_name)
+            #print("img_name:%s..............."%img_name)
             
         
         cv2.putText(frame,temp_time,(50,420),cv2.FONT_HERSHEY_COMPLEX,1,(0,0,255),1)
         cv2.putText(frame,"area:%d"%total,(50,450),cv2.FONT_HERSHEY_COMPLEX,1,(0,0,255),1)
         cv2.imshow(window_name, frame)
         temp_grey = grey
-        c = cv2.waitKey(10)
+        c = cv2.waitKey(1000)
         if c & 0xFF == ord('q'):
             break
     cap.release()
