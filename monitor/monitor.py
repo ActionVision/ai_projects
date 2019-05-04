@@ -62,7 +62,7 @@ class myThread (threading.Thread):   #继承父类threading.Thread
             fobj.close()
 
 
-def Catch_person(window_name, camera_idx, catch_pic_num, path_name):
+def Catch_person(window_name, camera_idx,  path_name):
     cv2.namedWindow(window_name)
     cap = cv2.VideoCapture(camera_idx)
     classfier = cv2.CascadeClassifier("haarcascade_frontalface_alt2.xml")
@@ -94,7 +94,7 @@ def Catch_person(window_name, camera_idx, catch_pic_num, path_name):
     cap.release()
     cv2.destroyAllWindows()
 
-def Catch_action(window_name, camera_idx, catch_pic_num, path_name):
+def Catch_action(window_name, camera_idx,  path_name):
     cv2.namedWindow(window_name)
     cap = cv2.VideoCapture(camera_idx)
     color = (0, 255, 0)
@@ -128,12 +128,12 @@ def Catch_action(window_name, camera_idx, catch_pic_num, path_name):
     cap.release()
     cv2.destroyAllWindows()
 
-def Catch_action_with_person(window_name, camera_idx, catch_pic_num, path_name):
+def Catch_action_with_person(window_name, camera_idx,  path_name):
     cv2.namedWindow(window_name)
     cap = cv2.VideoCapture(camera_idx)
     color = (0, 255, 0)
     num = 0
-    classfier = cv2.CascadeClassifier("C://Users//934554314//Anaconda3//Lib//site-packages//cv2//data//haarcascade_frontalface_alt2.xml")
+    classfier = cv2.CascadeClassifier("haarcascade_frontalface_alt2.xml")
     object_name = 'other'
     
     while cap.isOpened():
@@ -188,14 +188,16 @@ def get_camera():
 
 
 if __name__ == '__main__':
-    #get_camera()
-    
+
+    path = "./save_image"
+    if os.path.exists(path)==False:
+        os.mkdir(path)    
     dir_name = "monitor"
     bp = ByPy()
     bp.mkdir(remotepath = dir_name)
     # 创建新线程
-    thread1 = myThread(1, "Thread-1", 1,"D:\\ai_projects\\monitor\\save_image")
+    thread1 = myThread(1, "Thread-1", 1,path)
 
     # 开启线程
     thread1.start()
-    Catch_action_with_person("monitor", 0, 1000, 'D:\\ai_projects\\monitor\\save_image')
+    Catch_action_with_person("monitor", 0,  path)
